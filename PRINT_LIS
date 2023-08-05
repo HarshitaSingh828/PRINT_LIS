@@ -1,0 +1,41 @@
+import java.util.*;
+public class Main{
+   public static void lis(int[]arr, int n){
+        int[]lis = new int[n];
+        int[]hash = new int[n];
+        for(int i = 0; i < n; i++){
+            hash[i] = i;
+        }
+        Arrays.fill(lis,1);
+        for(int i= 0; i < n; i++){
+            for(int j = 0; j < i; j++){
+                if(arr[j] < arr[i]){
+                    lis[i] = Math.max(lis[i], 1+lis[j]);
+                    hash[i]= j;
+                }
+            }
+        }
+        int ans = -1; int lastindex = -1;
+        for(int i= 0; i < n; i++){
+            if(lis[i] > ans){
+                ans = lis[i];
+                lastindex = i;
+            }
+        }
+        ArrayList<Integer>temp = new ArrayList<>();
+        temp.add(arr[lastindex]);
+        
+        while(hash[lastindex]!= lastindex){
+            lastindex = hash[lastindex];
+            temp.add(arr[lastindex]);
+        }
+        for(int i = temp.size()-1 ; i >=0; i--){
+            System.out.print(temp.get(i) + " ");
+        }
+    }
+	public static void main(String[] args) {
+		int arr[] = {10,9,2,5,3,7,101,18};
+	    int n = arr.length;
+    	lis(arr,n);
+	}
+}
